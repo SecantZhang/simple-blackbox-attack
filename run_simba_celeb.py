@@ -8,24 +8,24 @@ import random
 import argparse
 import os
 from simba import SimBA
-# export PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:128
+from tqdm import tqdm
 
 parser = argparse.ArgumentParser(description='Runs SimBA on a set of images')
+parser.add_argument('--targeted', action='store_true', help='perform targeted attack')
+parser.add_argument('--pixel_attack', action='store_true', help='attack in pixel space')
+parser.add_argument('--num_runs', type=int, default=1000, help='number of image samples')
+parser.add_argument('--num_iters', type=int, default=30000, help='maximum number of iterations, 0 for unlimited')
+parser.add_argument('--batch_size', type=int, default=20, help='batch size for parallel runs')
 parser.add_argument('--model', type=str, default='inception_v3', help='type of base model to use')
 parser.add_argument('--data_root', type=str, default='celeb', help='root directory of imagenet data')
 parser.add_argument('--result_dir', type=str, default='save_celeb', help='directory for saving results')
 parser.add_argument('--sampled_image_dir', type=str, default='save_celeb', help='directory to cache sampled images')
-parser.add_argument('--num_runs', type=int, default=1000, help='number of image samples')
-parser.add_argument('--batch_size', type=int, default=20, help='batch size for parallel runs')
-parser.add_argument('--num_iters', type=int, default=1, help='maximum number of iterations, 0 for unlimited')
 parser.add_argument('--log_every', type=int, default=10, help='log every n iterations')
 parser.add_argument('--epsilon', type=float, default=0.2, help='step size per iteration')
 parser.add_argument('--linf_bound', type=float, default=0.0, help='L_inf bound for frequency space attack')
 parser.add_argument('--freq_dims', type=int, default=38, help='dimensionality of 2D frequency space')
 parser.add_argument('--order', type=str, default='rand', help='(random) order of coordinate selection')
 parser.add_argument('--stride', type=int, default=9, help='stride for block order')
-parser.add_argument('--targeted', action='store_true', help='perform targeted attack')
-parser.add_argument('--pixel_attack', action='store_true', help='attack in pixel space')
 parser.add_argument('--save_suffix', type=str, default='', help='suffix appended to save file')
 args = parser.parse_args()
 
@@ -69,7 +69,7 @@ if args.num_iters > 0:
 else:
     max_iters = int(n_dims)
 N = int(math.floor(float(args.num_runs) / float(args.batch_size)))
-for i in range(N):
+for i in tqdm(range(N)):
     upper = min((i + 1) * args.batch_size, args.num_runs)
     images_batch = images[(i * args.batch_size):upper]
     labels_batch = labels[(i * args.batch_size):upper]

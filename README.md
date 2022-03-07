@@ -31,9 +31,9 @@ python run_simba_cifar.py --data_root pytorch-cifar --model_ckpt save_cifar/trai
 
 **Update Yue**: Add celeb with inception,
 CelebA might not be able to download from code, auto-down from [alined_celebA](https://drive.google.com/drive/folders/0B7EVK8r0v71pTUZsaXdaSnZBZzg?resourcekey=0-rJlzl934LzC-Xp28GeIBzQ).
-Run on local machine: cuda 11.6/py39/GPU 8G  Speed: avg 0.1s/iter
-Modified default parameters: batch_size 50->20, num_iter: 10000->1000
+Run on local machine: cuda 11.6/py39/GPU 8G  Speed: avg 2.76it/s app 24*50 mins in total
+Modified default parameters: batch_size 50->20
 Additional Flag: --pixel_attack/ --targeted
 ```
-python run_simba_celeb.py > "save_celeb/output.txt"
+python run_simba_celeb.py > "save_celeb/output.txt" 
 ```
