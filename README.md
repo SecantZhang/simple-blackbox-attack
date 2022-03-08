@@ -26,5 +26,14 @@ python run_simba.py --data_root <imagenet_root> --num_iters 10000 --freq_dims 22
 
 **Update 2021/03/10**: Added code for running SimBA on CIFAR-10 using models from [pytorch-cifar](https://github.com/kuangliu/pytorch-cifar). To run targeted attack against a trained ResNet-18 model:
 ```
-python run_simba_cifar.py --data_root <cifar_root> --model_ckpt <model_checkpoint> --model ResNet18 --targeted
+python run_simba_cifar.py --data_root pytorch-cifar --model_ckpt save_cifar/trained.pth --model resnet18 --targeted
+```
+
+**Update Yue**: Add celeb with inception,
+CelebA might not be able to download from code, auto-down from [alined_celebA](https://drive.google.com/drive/folders/0B7EVK8r0v71pTUZsaXdaSnZBZzg?resourcekey=0-rJlzl934LzC-Xp28GeIBzQ).
+Run on local machine: cuda 11.6/py39/GPU 8G  Speed: avg 2.76it/s app 24*50 mins in total
+Modified default parameters: batch_size 50->20
+Additional Flag: --pixel_attack/ --targeted
+```
+python run_simba_celeb.py > "save_celeb/output.txt" 
 ```
