@@ -10,6 +10,9 @@ import sys
 sys.path.append('pytorch-cifar')
 import models
 from simba import SimBA
+import time
+
+overall_time = time.time()
 
 parser = argparse.ArgumentParser(description='Runs SimBA on a set of images')
 parser.add_argument('--data_root', type=str, required=True, help='root directory of imagenet data')
@@ -110,3 +113,6 @@ for i in range(N):
         args.result_dir, prefix, args.model, args.num_runs, args.num_iters, args.freq_dims, args.epsilon, args.order, args.save_suffix)
     torch.save({'adv': all_adv, 'probs': all_probs, 'succs': all_succs, 'queries': all_queries,
                 'l2_norms': all_l2_norms, 'linf_norms': all_linf_norms}, savefile)
+
+end_time = time.time()
+print(f"duration of script: {end_time - overall_time} seconds")
